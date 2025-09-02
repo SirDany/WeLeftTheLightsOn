@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Ship Terminal — Mockup (16:9)</title>
+    <style>
+      /* Root variables: modern sci-fi palette */
+      :root {
+        --color-bg: #0d1117; /* very dark navy/black */
+        --color-panel: #161b22; /* dark bluish panel */
+        --color-accent: #00ffe7; /* bright cyan/neon */
+        --color-accent-alt: #ff4d6d; /* vibrant magenta/red */
+        --color-warm-accent: #ff9f43; /* warm orange for contrast */
+        --color-muted: #8a95a1; /* cool grayish blue */
+        --color-glass-light: rgba(0, 255, 231, 0.12); /* cyan translucent */
+        --color-glass-lighter: rgba(0, 255, 231, 0.06);
+        --color-ok: #4efeb1; /* neon greenish */
+        --color-danger: #ff6b6b; /* bright red */
+
+        --font-family-sans: 'Inter', ui-sans-serif, system-ui, -apple-system,
+          'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: radial-gradient(
+            closest-side at 25% 15%,
+            rgba(0, 255, 231, 0.1),
+            transparent 25%
+          ),
+          linear-gradient(180deg, var(--color-bg) 0%, #070a0f 100%);
+        color: var(--color-muted);
+        font-family: var(--font-family-sans);
+      }
+
+      .mockup {
+        width: 1280px;
+        height: 720px;
+        border-radius: 16px;
+        overflow: hidden;
+        background: var(--color-panel);
+        box-shadow: 0 24px 60px rgba(0, 255, 231, 0.35),
+          inset 0 0 30px rgba(0, 255, 231, 0.15);
+        display: flex;
+        flex-direction: column;
+        border: 1px solid rgba(0, 255, 231, 0.2);
+      }
+
+      header.topbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 28px;
+        background: linear-gradient(
+          180deg,
+          rgba(0, 255, 231, 0.06),
+          rgba(0, 0, 0, 0.15)
+        );
+        border-bottom: 1px solid rgba(0, 255, 231, 0.15);
+        color: #c1dbee;
+      }
+
+      .company {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+
+      .logo {
+        width: 60px;
+        height: 60px;
+        border-radius: 14px;
+        display: grid;
+        place-items: center;
+        background: linear-gradient(
+          135deg,
+          rgba(0, 255, 231, 0.3),
+          rgba(255, 159, 67, 0.2)
+        );
+        box-shadow: inset 0 -6px 18px rgba(0, 255, 231, 0.5),
+          0 0 15px rgba(0, 255, 231, 0.7);
+        color: var(--color-accent);
+        font-weight: 900;
+        font-size: 20px;
+        border: 1.5px solid rgba(0, 255, 231, 0.4);
+        text-shadow: 0 0 6px rgba(0, 255, 231, 0.9);
+      }
+
+      .system-info {
+        display: flex;
+        flex-direction: column;
+        line-height: 1.3;
+      }
+
+      .system-info .label {
+        font-size: 13px;
+        color: #7f95aa;
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+      }
+
+      .system-info .value {
+        font-weight: 700;
+        color: #e0f7fa;
+        font-size: 16px;
+      }
+
+      .status-right {
+        display: flex;
+        gap: 24px;
+        align-items: center;
+      }
+
+      .badge {
+        background: var(--color-glass-light);
+        padding: 10px 16px;
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        min-width: 80px;
+        justify-content: center;
+        box-shadow: 0 0 15px rgba(0, 255, 231, 0.3);
+        color: #e0f7fa;
+        font-weight: 700;
+      }
+
+      .badge .num {
+        font-weight: 900;
+        font-size: 18px;
+        color: var(--color-accent);
+      }
+
+      .badge .sub {
+        font-size: 12px;
+        color: #7a8ba6;
+      }
+
+      main.content {
+        flex: 1 1 auto;
+        display: flex;
+        gap: 12px;
+        box-sizing: border-box;
+      }
+
+      .jobs-list {
+        overflow-y: auto;
+        flex: 0 0 380px;
+        background: linear-gradient(
+          180deg,
+          rgba(0, 255, 231, 0.05),
+          rgba(3, 14, 25, 0.2)
+        );
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        border: 1.5px solid rgba(0, 255, 231, 0.15);
+        box-sizing: border-box;
+        box-shadow: 0 0 20px rgba(0, 255, 231, 0.1);
+      }
+
+      .jobs-list .list-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 12px;
+      }
+
+      .job-item {
+        background: linear-gradient(
+          180deg,
+          rgba(0, 255, 231, 0.02),
+          rgba(3, 14, 25, 0.2)
+        );
+        border-radius: 12px;
+        padding: 14px;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        cursor: pointer;
+        border: 1px solid rgba(0, 255, 231, 0.15);
+        transition: box-shadow 0.3s ease, outline 0.3s ease;
+        color: #a3d7f2;
+      }
+
+      .job-item:hover {
+        box-shadow: 0 0 18px rgba(0, 255, 231, 0.5);
+      }
+
+      .job-item.active {
+        outline: 2px solid var(--color-warm-accent);
+        box-shadow: inset 0 0 22px var(--color-warm-accent);
+        color: #fff;
+        font-weight: 700;
+      }
+
+      .job-item .meta {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .job-title {
+        font-weight: 700;
+        color: #e0f7fa;
+        font-size: 17px;
+      }
+
+      .job-sub {
+        margin-top: 6px;
+        font-size: 13px;
+        color: var(--color-muted);
+      }
+
+      .job-right {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 8px;
+      }
+
+      .pill {
+        background: rgba(0, 255, 231, 0.08);
+        padding: 7px 12px;
+        border-radius: 999px;
+        font-size: 13px;
+        color: var(--color-accent);
+        font-weight: 600;
+        text-shadow: 0 0 6px rgba(0, 255, 231, 0.6);
+      }
+
+      .jobs-scroll {
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        padding-right: 8px;
+      }
+
+      .detail-section {
+        flex: 1 1 auto;
+        display: flex;
+      }
+
+      .detail-panel {
+        flex: 1 1 auto;
+        background: linear-gradient(
+          180deg,
+          rgba(0, 255, 231, 0.04),
+          rgba(3, 14, 25, 0.4)
+        );
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        border: 1.5px solid rgba(0, 255, 231, 0.2);
+        box-sizing: border-box;
+        box-shadow: 0 0 30px rgba(0, 255, 231, 0.2);
+        color: #e0f7fa;
+        overflow-y: auto;
+      }
+
+      .detail-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 16px;
+      }
+
+      .detail-title {
+        font-size: 24px;
+        font-weight: 900;
+        color: var(--color-accent);
+        text-shadow: 0 0 12px var(--color-accent);
+      }
+
+      .detail-desc {
+        color: var(--color-muted);
+        line-height: 1.5;
+      }
+
+      .objectives {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        margin-top: 12px;
+      }
+
+      .objective {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 14px;
+        background: var(--color-glass-light);
+        border-radius: 12px;
+        border: 1.5px solid rgba(0, 255, 231, 0.15);
+        box-shadow: 0 0 12px rgba(0, 255, 231, 0.1);
+      }
+
+      .objective .title {
+        font-weight: 700;
+        color: var(--color-accent);
+      }
+
+      .objective .meta {
+        font-size: 13px;
+        color: var(--color-muted);
+      }
+
+      .detail-actions {
+        display: flex;
+        gap: 14px;
+        margin-top: auto;
+      }
+
+      .detail-actions > * {
+        flex: 1;
+      }
+
+      .btn {
+        padding: 12px 16px;
+        border-radius: 14px;
+        background: rgba(0, 255, 231, 0.08);
+        border: 1.5px solid rgba(0, 255, 231, 0.2);
+        cursor: pointer;
+        color: var(--color-accent);
+        font-weight: 700;
+        font-size: 15px;
+        text-shadow: 0 0 6px rgba(0, 255, 231, 0.8);
+        transition: background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .btn:hover {
+        background: var(--color-accent);
+        color: #0d1117;
+        box-shadow: 0 0 18px var(--color-accent);
+      }
+
+      .btn.primary {
+        background: var(--color-accent);
+        border-color: var(--color-accent);
+        color: #0d1117;
+        text-shadow: none;
+      }
+
+      .btn.primary:hover {
+        background: #00d6c6;
+        border-color: #00d6c6;
+        color: #0d1117;
+        box-shadow: 0 0 20px #00d6c6;
+      }
+
+      .btn.ghost {
+        background: transparent;
+        border: 1.5px solid var(--color-accent);
+        color: var(--color-accent);
+        text-shadow: 0 0 6px var(--color-accent);
+      }
+
+      .btn.ghost:hover {
+        background: var(--color-accent);
+        color: #0d1117;
+        text-shadow: none;
+      }
+
+      .btn.warn {
+        background: rgba(255, 75, 75, 0.2);
+        border-color: rgba(255, 75, 75, 0.4);
+        color: #ff4d6d;
+        text-shadow: 0 0 6px #ff4d6d;
+      }
+
+      .btn.warn:hover {
+        background: #ff4d6d;
+        border-color: #ff4d6d;
+        color: #0d1117;
+        box-shadow: 0 0 20px #ff4d6d;
+        text-shadow: none;
+      }
+
+      .active-job-view {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        position: relative;
+      }
+
+      .active-banner {
+        padding: 16px;
+        border-radius: 14px;
+        background: linear-gradient(
+          90deg,
+          rgba(255, 159, 67, 0.1),
+          rgba(255, 75, 75, 0.08)
+        );
+        border: 1.5px solid rgba(255, 159, 67, 0.2);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: #ff9f43;
+        text-shadow: 0 0 10px rgba(255, 159, 67, 0.8);
+      }
+
+      footer.tabs {
+        display: flex;
+        gap: 16px;
+        padding: 0 24px;
+        align-items: flex-end;
+        background: linear-gradient(
+          180deg,
+          rgba(0, 0, 0, 0.1),
+          rgba(255, 255, 255, 0.03)
+        );
+        border-top: 1px solid rgba(0, 255, 231, 0.3);
+      }
+
+      .tab {
+        flex: 1;
+        padding: 12px 10px;
+        border-radius: 16px 16px 0 0;
+        cursor: pointer;
+        font-weight: 700;
+        color: var(--color-muted);
+        background: rgba(0, 255, 231, 0.06);
+        border: 1.5px solid rgba(0, 255, 231, 0.2);
+        border-bottom: none;
+        text-align: center;
+        transition: background 0.25s ease, color 0.25s ease,
+          box-shadow 0.25s ease;
+        box-shadow: 0 0 10px rgba(0, 255, 231, 0.08);
+      }
+
+      .tab:not(.active):hover {
+        background: rgba(0, 255, 231, 0.15);
+        color: var(--color-accent);
+        box-shadow: 0 0 18px rgba(0, 255, 231, 0.5);
+      }
+
+      .tab.active {
+        background: var(--color-accent);
+        color: #0d1117;
+        position: relative;
+        top: 1px;
+        box-shadow: 0 0 25px var(--color-accent);
+      }
+
+      .tab-pane {
+        display: none;
+        flex: 1 1 auto;
+        background: rgba(3, 14, 25, 0.8);
+        border-top: 1.5px solid rgba(0, 255, 231, 0.3);
+        box-shadow: inset 0 0 20px rgba(0, 255, 231, 0.2);
+      }
+
+      .tab-pane.active {
+        display: flex;
+      }
+
+      /* Store Panel */
+      .store-panel {
+        padding: 24px;
+        flex-grow: 1;
+      }
+
+      .store-item {
+        background: rgba(0, 255, 231, 0.05);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px 20px;
+        border-radius: 12px;
+        margin-bottom: 16px;
+        border: 1.5px solid rgba(0, 255, 231, 0.2);
+        box-shadow: 0 0 15px rgba(0, 255, 231, 0.15);
+        color: #a3d7f2;
+      }
+
+      .store-header {
+        margin-bottom: 12px;
+        color: var(--color-accent);
+        font-weight: 700;
+        font-size: 18px;
+      }
+
+      .store-sub-header {
+        margin-bottom: 24px;
+        color: var(--color-muted);
+      }
+
+      /* Modal */
+      .modal-backdrop {
+        position: absolute;
+        inset: 0;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        background: rgba(13, 17, 23, 0.85);
+      }
+
+      .modal {
+        width: 520px;
+        background: linear-gradient(180deg, #111820, #15232c);
+        border-radius: 16px;
+        padding: 24px;
+        border: 1.5px solid rgba(0, 255, 231, 0.2);
+        color: var(--color-muted);
+        box-shadow: 0 0 30px rgba(0, 255, 231, 0.3);
+      }
+
+      .modal h3 {
+        margin: 0 0 12px 0;
+        color: var(--color-accent);
+        font-weight: 900;
+        text-shadow: 0 0 8px var(--color-accent);
+      }
+
+      .modal .row {
+        display: flex;
+        gap: 12px;
+        justify-content: flex-end;
+        margin-top: 16px;
+      }
+
+      /* Utility classes */
+      .muted {
+        color: var(--color-muted);
+      }
+
+      .small {
+        font-size: 12px;
+      }
+
+      /* Responsive */
+      @media (max-width: 1280px) {
+        .mockup {
+          width: 100%;
+          height: 56.25vw;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      class="mockup"
+      role="application"
+      aria-label="Ship terminal mockup (16:9)"
+    >
+      <header class="topbar">
+        <div class="company">
+          <div class="logo">A</div>
+          <div class="system-info">
+            <div class="label">Company</div>
+            <div class="value">System: Kepler-186</div>
+            <div class="small muted">Galactic Time: 2147-07-18 · 14:23</div>
+          </div>
+        </div>
+
+        <div class="status-right" aria-hidden="false">
+          <div class="badge" id="energyBadge" title="Ship Energy">
+            <div
+              style="display: flex; flex-direction: column; align-items: center"
+            >
+              <span class="num" id="energyVal">72 / 200</span
+              ><span class="sub">Energy</span>
+            </div>
+          </div>
+          <div class="badge" id="creditBadge" title="Player Credits">
+            <div
+              style="display: flex; flex-direction: column; align-items: center"
+            >
+              <span class="num" id="creditVal">1,240</span
+              ><span class="sub">Credits</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main class="content">
+        <div id="tab-jobs" class="tab-pane active">
+          <aside class="jobs-list" id="jobsListArea">
+            <div class="list-header">
+              <div style="font-weight: 800; color: #fff">Available Jobs</div>
+              <div class="muted small">3 open</div>
+            </div>
+            <div class="jobs-scroll" id="jobsScroll">
+              <!-- job items injected by JS -->
+            </div>
+          </aside>
+
+          <!-- Details / main panel -->
+          <section class="detail-section">
+            <div class="detail-panel" id="detailPanel">
+              <div class="detail-header">
+                <div>
+                  <div class="detail-title" id="detailTitle">Select a job</div>
+                  <div class="small muted detail-sub" id="detailSub">
+                    Choose a job from the list at left to see details,
+                    objectives and accept it.
+                  </div>
+                </div>
+                <div style="min-width: 120px; text-align: right">
+                  <div class="muted small">Reward</div>
+                  <div style="font-weight: 800; color: #fff" id="detailReward">
+                    —
+                  </div>
+                  <div class="muted small">Energy Cost</div>
+                  <div style="font-weight: 800; color: #fff" id="energyCost">
+                    —
+                  </div>
+                </div>
+              </div>
+
+              <div class="detail-desc" id="detailDescription">
+                No job selected.
+              </div>
+
+              <div class="objectives" id="objectivesList">
+                <!-- objectives rendered here -->
+              </div>
+
+              <div class="detail-actions">
+                <button class="btn primary" id="acceptBtn" disabled>
+                  Accept Job
+                </button>
+              </div>
+            </div>
+
+            <!-- Active job full-cover view (hidden until accepted) -->
+            <div id="activeJobContainer" style="display: none">
+              <div class="active-job-view">
+                <div class="active-banner">
+                  <div>
+                    <div style="font-weight: 800; color: #fff" id="activeTitle">
+                      Active Job — Delivery to Kepler-186f
+                    </div>
+                    <div class="muted small" id="activeSub">
+                      ETA: ~2h · Energy cost: 28
+                    </div>
+                  </div>
+                  <div style="display: flex; gap: 10px; align-items: center">
+                    <button class="btn" id="abandBtn">Abandon</button>
+                    <button class="btn primary" id="completeBtn">
+                      Complete
+                    </button>
+                  </div>
+                </div>
+
+                <div
+                  style="
+                    padding: 12px;
+                    background: var(--glass-2);
+                    border-radius: 10px;
+                    border: 1px solid rgba(255, 255, 255, 0.02);
+                    color: var(--muted);
+                  "
+                >
+                  <div id="activeDesc">Job in progress. Objectives:</div>
+                  <div class="objectives" id="activeObjectives"></div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <div id="tab-store" class="tab-pane">
+          <div id="store-page" class="store-panel">
+            <h2 class="store-header">Store — Buy Ship Energy</h2>
+            <div class="small muted store-sub-header">1 Energy = 5 Credits</div>
+
+            <div class="store-item">
+              <div>
+                <div style="font-weight: bold; font-size: 1.1em">
+                  +10 Energy
+                </div>
+                <div style="opacity: 0.7">Cost: 50 Credits</div>
+              </div>
+              <button id="buyEnergy10" class="btn primary">Buy</button>
+            </div>
+          </div>
+        </div>
+
+        <div id="tab-database" class="tab-pane">No data found.</div>
+      </main>
+
+      <footer class="tabs">
+        <button data-tab="jobs" class="tab active">Jobs</button>
+        <button data-tab="store" class="tab">Store</button>
+        <button data-tab="database" class="tab">Database</button>
+      </footer>
+
+      <!-- Modals -->
+      <div class="modal-backdrop" id="modalBackdrop">
+        <div class="modal" role="dialog" aria-modal="true">
+          <h3 id="modalTitle">Confirm</h3>
+          <div id="modalText">Are you sure?</div>
+          <div class="row">
+            <button class="btn" id="modalCancel">Cancel</button>
+            <button class="btn primary" id="modalConfirm">Confirm</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      /* Mock job data */
+      const jobs = [
+        {
+          id: 'j-001',
+          title: 'Medical Supplies Drop',
+          issuer: 'Helix Relief',
+          distance: 12,
+          energy: 18,
+          reward: 420,
+          description:
+            'Helix Relief has issued an urgent request for the delivery of critical medical supplies to the orbital clinic stationed above Kepler-186f. The clinic is currently dealing with a severe outbreak of a highly infectious pathogen, and its reserves are almost depleted. Your task is to ensure these life-saving resources reach the facility intact and without delay. Atmospheric turbulence and high-traffic orbital lanes may complicate docking procedures, so careful navigation is essential. Time is of the essence—lives are counting on your speed and precision.',
+          objectives: [
+            {
+              id: 'o1',
+              title: 'Dock with clinic station',
+              type: 'mandatory',
+              reward: 240,
+            },
+            {
+              id: 'o2',
+              title: 'Upload manifest',
+              type: 'mandatory',
+              reward: 60,
+            },
+            {
+              id: 'b1',
+              title: 'Deliver within 3 hours',
+              type: 'optional',
+              reward: 120,
+            },
+          ],
+        },
+        {
+          id: 'j-002',
+          title: 'Data Courier',
+          issuer: 'ArcNet',
+          distance: 5,
+          energy: 8,
+          reward: 200,
+          description:
+            'ArcNet requires the secure transportation of a highly classified, quantum-encrypted data packet to their relay station orbiting a nearby moon. The contents are confidential, but intelligence suggests they may include navigation codes for an upcoming fleet operation. Due to heightened tensions in the sector, local patrols have been instructed to intercept and inspect all unregistered couriers. Your ship’s stealth systems and your discretion will be crucial to ensure the package arrives without interception.',
+          objectives: [
+            {
+              id: 'o1',
+              title: 'Transfer package to relay',
+              type: 'mandatory',
+              reward: 200,
+            },
+          ],
+        },
+        {
+          id: 'j-003',
+          title: 'Miner Rescue',
+          issuer: 'Tethys Mining',
+          distance: 28,
+          energy: 32,
+          reward: 980,
+          description:
+            'A distress signal has been received from a small Tethys Mining crew operating deep within the Valross Asteroid Cluster. Their mining rig has suffered catastrophic damage after a collision with drifting debris, leaving three miners stranded in a high-risk zone. The area is plagued by dense asteroid fields, unstable rock fragments, and unpredictable gravitational currents. Your mission is to navigate these hazards, locate the beacon, and extract the survivors before their life support systems fail. Any additional salvage, such as the rig’s spare parts, will earn you a bonus.',
+          objectives: [
+            { id: 'o1', title: 'Reach beacon', type: 'mandatory', reward: 600 },
+            {
+              id: 'o2',
+              title: 'Evacuate miners (x3)',
+              type: 'mandatory',
+              reward: 340,
+            },
+            {
+              id: 'b1',
+              title: 'Recover spare part',
+              type: 'optional',
+              reward: 240,
+            },
+          ],
+        },
+      ];
+
+      let selectedJobId = null;
+      let activeJob = null;
+
+      const jobsScroll = document.getElementById('jobsScroll');
+      const detailTitle = document.getElementById('detailTitle');
+      const detailSub = document.getElementById('detailSub');
+      const detailDescription = document.getElementById('detailDescription');
+      const energyCost = document.getElementById('energyCost');
+      const detailReward = document.getElementById('detailReward');
+      const objectivesList = document.getElementById('objectivesList');
+      const acceptBtn = document.getElementById('acceptBtn');
+      const activeJobContainer = document.getElementById('activeJobContainer');
+      const activeTitle = document.getElementById('activeTitle');
+      const activeSub = document.getElementById('activeSub');
+      const activeObjectives = document.getElementById('activeObjectives');
+      const activeDesc = document.getElementById('activeDesc');
+
+      const energyVal = document.getElementById('energyVal');
+      const creditVal = document.getElementById('creditVal');
+
+      // modal controls
+      const modalBackdrop = document.getElementById('modalBackdrop');
+      const modalTitle = document.getElementById('modalTitle');
+      const modalText = document.getElementById('modalText');
+      const modalCancel = document.getElementById('modalCancel');
+      const modalConfirm = document.getElementById('modalConfirm');
+
+      function parseAmount(str) {
+        // Remove all non-digit and non-decimal characters, but keep .
+        return parseInt(str.replace(/,/g, ''));
+      }
+
+      // footer tabs
+      document.querySelectorAll('.tab').forEach((tab) => {
+        tab.addEventListener('click', () => {
+          // Deactivate all tabs & panes
+          document
+            .querySelectorAll('.tab')
+            .forEach((t) => t.classList.remove('active'));
+          document
+            .querySelectorAll('.tab-pane')
+            .forEach((p) => p.classList.remove('active'));
+
+          // Activate clicked tab & matching pane
+          tab.classList.add('active');
+          document
+            .getElementById(`tab-${tab.dataset.tab}`)
+            .classList.add('active');
+        });
+      });
+
+      function renderJobList() {
+        jobsScroll.innerHTML = '';
+        jobs.forEach((j) => {
+          const item = document.createElement('div');
+          item.className =
+            'job-item' + (selectedJobId === j.id ? ' active' : '');
+          item.tabIndex = 0;
+          item.innerHTML = `
+          <div style=\"width:46px;height:46px;border-radius:8px;background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(0,0,0,0.02));display:grid;place-items:center;font-weight:700;color:#fff;\">${j.issuer
+            .split(' ')[0]
+            .charAt(0)}</div>
+          <div class=\"meta\"> <div class=\"job-title\">${
+            j.title
+          }</div> <div class=\"job-sub\">${j.issuer} · ${
+            j.distance
+          } ly</div></div>
+          <div class=\"job-right\"><div class=\"pill\">${
+            j.reward
+          } cr</div><div class=\"pill\">${j.energy} E</div></div>
+        `;
+          item.addEventListener('click', () => selectJob(j.id));
+          jobsScroll.appendChild(item);
+        });
+      }
+
+      function selectJob(id) {
+        selectedJobId = id;
+        renderJobList();
+        const job = jobs.find((x) => x.id === id);
+        if (!job) return;
+        detailTitle.textContent = job.title;
+        detailSub.textContent = job.issuer + ' · ' + job.distance + ' ly';
+        detailDescription.textContent = job.description;
+        energyCost.textContent = job.energy + ' E';
+        detailReward.textContent = job.reward + ' cr';
+        objectivesList.innerHTML = '';
+        job.objectives.forEach((o) => {
+          const el = document.createElement('div');
+          el.className = 'objective';
+          el.innerHTML = `<div><div class="title">${
+            o.title
+          }</div><div class="meta">${
+            o.type === 'optional' ? 'optional' : 'Mandatory'
+          }</div></div><div class="meta">${
+            o.reward ? o.reward + ' cr' : ''
+          }</div>`;
+          objectivesList.appendChild(el);
+        });
+        acceptBtn.disabled = !!activeJob;
+      }
+
+      acceptBtn.addEventListener('click', () => {
+        if (!selectedJobId) return;
+        const job = jobs.find((x) => x.id === selectedJobId);
+        if (!job) return;
+        showConfirm(
+          'Accept Job',
+          `Accept '${job.title}'? This will reserve ${job.energy} energy.`,
+          () => {
+            // simple acceptance logic: deduct energy and set active job
+            const currEnergy = parseAmount(energyVal.textContent);
+            if (currEnergy < job.energy) {
+              alert('Not enough energy.');
+              return;
+            }
+            energyVal.textContent = currEnergy - job.energy + ' / 200';
+            activeJob = Object.assign({}, job);
+            enterActiveView();
+          }
+        );
+      });
+
+      function enterActiveView() {
+        // hide left list and expand detail to full area
+        document.getElementById('jobsListArea').style.display = 'none';
+        document.getElementById('detailPanel').style.display = 'none';
+        activeJobContainer.style.display = 'block';
+        activeTitle.textContent = `${activeJob.title} — ${activeJob.issuer}`;
+        activeSub.textContent = `ETA: ~${Math.max(
+          1,
+          Math.round(activeJob.distance / 6)
+        )}h · Energy cost: ${activeJob.energy}`;
+        activeDesc.textContent = activeJob.description;
+        renderActiveObjectives();
+      }
+
+      function renderActiveObjectives() {
+        activeObjectives.innerHTML = '';
+        activeJob.objectives.forEach((o) => {
+          const el = document.createElement('div');
+          el.className = 'objective';
+          el.innerHTML = `<div><div class="title">${
+            o.title
+          }</div><div class="meta">${
+            o.type === 'optional' ? 'optional' : 'Mandatory'
+          }</div></div><div class="meta">${
+            o.reward ? o.reward + ' cr' : ''
+          }</div>`;
+          activeObjectives.appendChild(el);
+        });
+      }
+
+      // Abandon / Complete handlers
+      document.getElementById('abandBtn').addEventListener('click', () => {
+        showConfirm(
+          'Abandon Job',
+          'Abandoning will forfeit any unearned rewards. Proceed?',
+          () => {
+            // refund half energy cost as sample behavior (or none) — here we refund nothing
+            activeJob = null;
+            exitActiveView();
+          }
+        );
+      });
+
+      document.getElementById('completeBtn').addEventListener('click', () => {
+        showConfirm(
+          'Complete Job',
+          'Mark job as completed and collect rewards?',
+          () => {
+            // award credits
+            const credits = parseAmount(creditVal.textContent);
+            creditVal.textContent = credits + activeJob.reward;
+            activeJob = null;
+            exitActiveView();
+          }
+        );
+      });
+
+      document.getElementById('buyEnergy10').addEventListener('click', () => {
+        const amt = 10;
+        const cost = amt * 5;
+        const credits = parseAmount(creditVal.textContent);
+        const currentEnergy = parseAmount(energyVal.textContent);
+
+        if (cost > credits) {
+          alert('Not enough credits.');
+          return;
+        }
+
+        creditVal.textContent = credits - cost;
+        energyVal.textContent = currentEnergy + amt + ' / 200';
+      });
+
+      function exitActiveView() {
+        document.getElementById('jobsListArea').style.display = 'block';
+        document.getElementById('detailPanel').style.display = 'block';
+        activeJobContainer.style.display = 'none';
+        acceptBtn.disabled = false;
+        selectedJobId = null;
+        detailTitle.textContent = 'Select a job';
+        detailSub.textContent =
+          'Choose a job from the list at left to see details, objectives and accept it.';
+        detailDescription.textContent = 'No job selected.';
+        objectivesList.innerHTML = '';
+        renderJobList();
+      }
+
+      // Modal helper
+      let modalConfirmCallback = null;
+      function showConfirm(title, text, onConfirm) {
+        modalTitle.textContent = title;
+        modalText.textContent = text;
+        modalBackdrop.style.display = 'flex';
+        modalConfirmCallback = onConfirm;
+      }
+      modalCancel.addEventListener('click', () => {
+        modalBackdrop.style.display = 'none';
+        modalConfirmCallback = null;
+      });
+      modalConfirm.addEventListener('click', () => {
+        modalBackdrop.style.display = 'none';
+        if (modalConfirmCallback) modalConfirmCallback();
+        modalConfirmCallback = null;
+      });
+
+      // initialize
+      renderJobList();
+    </script>
+  </body>
+</html>
