@@ -1,0 +1,14 @@
+{
+	"Targets": [
+		{
+			"Name": "WeLeftTheLightsOn",
+			"Path": "..\\Source\\WeLeftTheLightsOn.Target.cs",
+			"Type": "Game"
+		},
+		{
+			"Name": "WeLeftTheLightsOnEditor",
+			"Path": "..\\Source\\WeLeftTheLightsOnEditor.Target.cs",
+			"Type": "Editor"
+		}
+	]
+}

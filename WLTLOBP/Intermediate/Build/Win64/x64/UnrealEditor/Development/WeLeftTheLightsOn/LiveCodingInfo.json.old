@@ -1,0 +1,9 @@
+{
+	"RemapUnityFiles": 
+	{
+		"Module.WeLeftTheLightsOn.gen.cpp.obj": [
+			"PlayerAbilitySystemComponent.gen.cpp.obj",
+			"WeLeftTheLightsOn.init.gen.cpp.obj"
+		]
+	}
+}

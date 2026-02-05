@@ -1,0 +1,8 @@
+{
+	"RemapUnityFiles": 
+	{
+		"Module.WeLeftTheLightsOn.cpp.obj": [
+			"WeLeftTheLightsOn.cpp.obj"
+		]
+	}
+}

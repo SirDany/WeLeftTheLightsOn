@@ -1,0 +1,16 @@
+/NOLOGO
+/errorReport:prompt
+/MACHINE:x64
+/SUBSYSTEM:WINDOWS
+/DEF
+/NAME:"UnrealEditor-WeLeftTheLightsOn.dll"
+/IGNORE:4221
+/NODEFAULTLIB
+"D:/CodingProjects/Game Project/WeLeftTheLightsOn/Intermediate/Build/Win64/x64/WeLeftTheLightsOnEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.InclOrderUnreal5_3.h.obj"
+"D:/CodingProjects/Game Project/WeLeftTheLightsOn/Intermediate/Build/Win64/x64/UnrealEditor/Development/WeLeftTheLightsOn/Module.WeLeftTheLightsOn.gen.cpp.obj"
+"D:/CodingProjects/Game Project/WeLeftTheLightsOn/Intermediate/Build/Win64/x64/UnrealEditor/Development/WeLeftTheLightsOn/WeLeftTheLightsOn.cpp.obj"
+"D:/CodingProjects/Game Project/WeLeftTheLightsOn/Intermediate/Build/Win64/x64/UnrealEditor/Development/WeLeftTheLightsOn/PerModuleInline.gen.cpp.obj"
+"D:/CodingProjects/Game Project/WeLeftTheLightsOn/Intermediate/Build/Win64/x64/UnrealEditor/Development/WeLeftTheLightsOn/PlayerAbilitySystemComponent.cpp.obj"
+"D:/CodingProjects/Game Project/WeLeftTheLightsOn/Intermediate/Build/Win64/x64/UnrealEditor/Development/WeLeftTheLightsOn/WLTLOFirstPersonCharacter.cpp.obj"
+"D:/CodingProjects/Game Project/WeLeftTheLightsOn/Intermediate/Build/Win64/x64/UnrealEditor/Development/WeLeftTheLightsOn/Default.rc2.res"
+/OUT:"D:/CodingProjects/Game Project/WeLeftTheLightsOn/Intermediate/Build/Win64/x64/UnrealEditor/Development/WeLeftTheLightsOn/UnrealEditor-WeLeftTheLightsOn.lib"

@@ -1,0 +1,19 @@
+{
+    "Version": "1.2",
+    "Data": {
+        "Source": "d:\\codingprojects\\game project\\weleftthelightson\\weleftthelightson\\intermediate\\build\\win64\\unrealeditor\\inc\\weleftthelightson\\uht\\horrorgamemode.gen.cpp",
+        "ProvidedModule": "",
+        "PCH": "d:\\codingprojects\\game project\\weleftthelightson\\weleftthelightson\\intermediate\\build\\win64\\x64\\weleftthelightsoneditor\\development\\unrealed\\sharedpch.unrealed.project.valapi.valexpapi.cpp20.h.pch",
+        "Includes": [
+            "d:\\codingprojects\\game project\\weleftthelightson\\weleftthelightson\\intermediate\\build\\win64\\x64\\unrealeditor\\development\\weleftthelightson\\definitions.weleftthelightson.h",
+            "d:\\codingprojects\\game project\\weleftthelightson\\weleftthelightson\\source\\weleftthelightson\\variant_horror\\horrorgamemode.h",
+            "e:\\program files\\ue_5.6\\engine\\source\\runtime\\engine\\classes\\gameframework\\gamemodebase.h",
+            "e:\\program files\\ue_5.6\\engine\\source\\runtime\\engine\\classes\\engine\\serverstatreplicator.h",
+            "e:\\program files\\ue_5.6\\engine\\intermediate\\build\\win64\\unrealeditor\\inc\\engine\\uht\\serverstatreplicator.generated.h",
+            "e:\\program files\\ue_5.6\\engine\\intermediate\\build\\win64\\unrealeditor\\inc\\engine\\uht\\gamemodebase.generated.h",
+            "d:\\codingprojects\\game project\\weleftthelightson\\weleftthelightson\\intermediate\\build\\win64\\unrealeditor\\inc\\weleftthelightson\\uht\\horrorgamemode.generated.h"
+        ],
+        "ImportedModules": [],
+        "ImportedHeaderUnits": []
+    }
+}

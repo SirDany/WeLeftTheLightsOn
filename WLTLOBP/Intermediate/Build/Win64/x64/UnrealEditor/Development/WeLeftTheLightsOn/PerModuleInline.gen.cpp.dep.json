@@ -1,0 +1,14 @@
+{
+    "Version": "1.2",
+    "Data": {
+        "Source": "d:\\codingprojects\\game project\\weleftthelightson\\intermediate\\build\\win64\\x64\\unrealeditor\\development\\weleftthelightson\\permoduleinline.gen.cpp",
+        "ProvidedModule": "",
+        "PCH": "d:\\codingprojects\\game project\\weleftthelightson\\intermediate\\build\\win64\\x64\\weleftthelightsoneditor\\development\\unrealed\\sharedpch.unrealed.project.valapi.valexpapi.cpp20.inclorderunreal5_3.h.pch",
+        "Includes": [
+            "d:\\codingprojects\\game project\\weleftthelightson\\intermediate\\build\\win64\\x64\\unrealeditor\\development\\weleftthelightson\\definitions.weleftthelightson.h",
+            "e:\\program files\\ue_5.6\\engine\\source\\runtime\\core\\public\\hal\\permoduleinline.inl"
+        ],
+        "ImportedModules": [],
+        "ImportedHeaderUnits": []
+    }
+}

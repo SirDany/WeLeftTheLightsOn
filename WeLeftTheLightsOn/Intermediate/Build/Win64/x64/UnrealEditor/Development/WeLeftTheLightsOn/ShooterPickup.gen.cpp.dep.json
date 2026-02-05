@@ -1,0 +1,15 @@
+{
+    "Version": "1.2",
+    "Data": {
+        "Source": "d:\\codingprojects\\game project\\weleftthelightson\\weleftthelightson\\intermediate\\build\\win64\\unrealeditor\\inc\\weleftthelightson\\uht\\shooterpickup.gen.cpp",
+        "ProvidedModule": "",
+        "PCH": "d:\\codingprojects\\game project\\weleftthelightson\\weleftthelightson\\intermediate\\build\\win64\\x64\\weleftthelightsoneditor\\development\\unrealed\\sharedpch.unrealed.project.valapi.valexpapi.cpp20.h.pch",
+        "Includes": [
+            "d:\\codingprojects\\game project\\weleftthelightson\\weleftthelightson\\intermediate\\build\\win64\\x64\\unrealeditor\\development\\weleftthelightson\\definitions.weleftthelightson.h",
+            "d:\\codingprojects\\game project\\weleftthelightson\\weleftthelightson\\source\\weleftthelightson\\variant_shooter\\weapons\\shooterpickup.h",
+            "d:\\codingprojects\\game project\\weleftthelightson\\weleftthelightson\\intermediate\\build\\win64\\unrealeditor\\inc\\weleftthelightson\\uht\\shooterpickup.generated.h"
+        ],
+        "ImportedModules": [],
+        "ImportedHeaderUnits": []
+    }
+}
