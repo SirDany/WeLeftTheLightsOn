@@ -21,7 +21,8 @@ public class WeLeftTheLightsOn : ModuleRules
 			"Slate",
             "GameplayAbilities",
 			"GameplayTags",
-			"GameplayTasks"
+			"GameplayTasks",
+            "GameplayDebugger"
         });
 
 		PrivateDependencyModuleNames.AddRange(new string[] { });
