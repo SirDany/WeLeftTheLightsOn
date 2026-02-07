@@ -1,2 +1,0 @@
-/Game/Maps/Lvl_SwiftJ1818_MOVEDFORMIGRATION_3974.Lvl_SwiftJ1818:PersistentLevel.BP_Item_C_UAID_E0D55EE7C4A8E2B102_1669639184.AC_Consume_C_54
-/Game/Systems/Items/Components/BehaviorComponents/AC_Consume_DEADFROMMIGRATION_4288.AC_Consume_C
