@@ -2,66 +2,107 @@
 #include "Net/UnrealNetwork.h"
 #include "Engine/Engine.h"
 
+#define CLAMP(Current, Max) \
+    Set##Current(FMath::Clamp(Get##Current(), 0.f, Get##Max()))
+
 UPlayerVitalsAttributeSet::UPlayerVitalsAttributeSet()
 {
-    // Initialize default values
-    Health.Current.SetCurrentValue(100.f);
-    Health.Max.SetCurrentValue(100.f);
+    InitHealth(100.f);
+    InitMaxHealth(100.f);
 
-    Stamina.Current.SetCurrentValue(100.f);
-    Stamina.Max.SetCurrentValue(100.f);
+    InitStamina(100.f);
+    InitMaxStamina(100.f);
 
-    Oxygen.Current.SetCurrentValue(100.f);
-    Oxygen.Max.SetCurrentValue(100.f);
+    InitOxygen(100.f);
+    InitMaxOxygen(100.f);
 
-    Hunger.Current.SetCurrentValue(100.f);
-    Hunger.Max.SetCurrentValue(100.f);
+    InitHunger(100.f);
+    InitMaxHunger(100.f);
 
-    Thirst.Current.SetCurrentValue(100.f);
-    Thirst.Max.SetCurrentValue(100.f);
+    InitThirst(100.f);
+    InitMaxThirst(100.f);
 }
 
-// --------------------- OnRep Callbacks ---------------------
-
-void UPlayerVitalsAttributeSet::OnRep_Health(const FAttributeWithMax& OldValue)
+void UPlayerVitalsAttributeSet::PostGameplayEffectExecute(
+    const FGameplayEffectModCallbackData& Data)
 {
-    Health.ClampCurrent();
-    GAMEPLAYATTRIBUTE_REPNOTIFY(UPlayerVitalsAttributeSet, Health.Current, OldValue.Current);
+    const FGameplayAttribute& Attr = Data.EvaluatedData.Attribute;
+
+    if (Attr == GetHealthAttribute() || Attr == GetMaxHealthAttribute())
+        CLAMP(Health, MaxHealth);
+
+    else if (Attr == GetStaminaAttribute() || Attr == GetMaxStaminaAttribute())
+        CLAMP(Stamina, MaxStamina);
+
+    else if (Attr == GetOxygenAttribute() || Attr == GetMaxOxygenAttribute())
+        CLAMP(Oxygen, MaxOxygen);
+
+    else if (Attr == GetHungerAttribute() || Attr == GetMaxHungerAttribute())
+        CLAMP(Hunger, MaxHunger);
+
+    else if (Attr == GetThirstAttribute() || Attr == GetMaxThirstAttribute())
+        CLAMP(Thirst, MaxThirst);
 }
 
-void UPlayerVitalsAttributeSet::OnRep_Stamina(const FAttributeWithMax& OldValue)
+// ---------------- Replication ----------------
+
+void UPlayerVitalsAttributeSet::OnRep_Health(const FGameplayAttributeData& OldValue)
 {
-    Stamina.ClampCurrent();
-    GAMEPLAYATTRIBUTE_REPNOTIFY(UPlayerVitalsAttributeSet, Stamina.Current, OldValue.Current);
+    GAMEPLAYATTRIBUTE_REPNOTIFY(UPlayerVitalsAttributeSet, Health, OldValue);
 }
 
-void UPlayerVitalsAttributeSet::OnRep_Oxygen(const FAttributeWithMax& OldValue)
+void UPlayerVitalsAttributeSet::OnRep_MaxHealth(const FGameplayAttributeData& OldValue)
 {
-    Oxygen.ClampCurrent();
-    GAMEPLAYATTRIBUTE_REPNOTIFY(UPlayerVitalsAttributeSet, Oxygen.Current, OldValue.Current);
+    GAMEPLAYATTRIBUTE_REPNOTIFY(UPlayerVitalsAttributeSet, MaxHealth, OldValue);
 }
 
-void UPlayerVitalsAttributeSet::OnRep_Hunger(const FAttributeWithMax& OldValue)
+void UPlayerVitalsAttributeSet::OnRep_Stamina(const FGameplayAttributeData& OldValue)
 {
-    Hunger.ClampCurrent();
-    GAMEPLAYATTRIBUTE_REPNOTIFY(UPlayerVitalsAttributeSet, Hunger.Current, OldValue.Current);
+    GAMEPLAYATTRIBUTE_REPNOTIFY(UPlayerVitalsAttributeSet, Stamina, OldValue);
 }
 
-void UPlayerVitalsAttributeSet::OnRep_Thirst(const FAttributeWithMax& OldValue)
+void UPlayerVitalsAttributeSet::OnRep_MaxStamina(const FGameplayAttributeData& OldValue)
 {
-    Thirst.ClampCurrent();
-    GAMEPLAYATTRIBUTE_REPNOTIFY(UPlayerVitalsAttributeSet, Thirst.Current, OldValue.Current);
+    GAMEPLAYATTRIBUTE_REPNOTIFY(UPlayerVitalsAttributeSet, MaxStamina, OldValue);
 }
 
+void UPlayerVitalsAttributeSet::OnRep_Oxygen(const FGameplayAttributeData& OldValue)
+{
+    GAMEPLAYATTRIBUTE_REPNOTIFY(UPlayerVitalsAttributeSet, Oxygen, OldValue);
+}
+
+void UPlayerVitalsAttributeSet::OnRep_MaxOxygen(const FGameplayAttributeData& OldValue)
+{
+    GAMEPLAYATTRIBUTE_REPNOTIFY(UPlayerVitalsAttributeSet, MaxOxygen, OldValue);
+}
+
+void UPlayerVitalsAttributeSet::OnRep_Hunger(const FGameplayAttributeData& OldValue)
+{
+    GAMEPLAYATTRIBUTE_REPNOTIFY(UPlayerVitalsAttributeSet, Hunger, OldValue);
+}
+
+void UPlayerVitalsAttributeSet::OnRep_MaxHunger(const FGameplayAttributeData& OldValue)
+{
+    GAMEPLAYATTRIBUTE_REPNOTIFY(UPlayerVitalsAttributeSet, MaxHunger, OldValue);
+}
+
+void UPlayerVitalsAttributeSet::OnRep_Thirst(const FGameplayAttributeData& OldValue)
+{
+    GAMEPLAYATTRIBUTE_REPNOTIFY(UPlayerVitalsAttributeSet, Thirst, OldValue);
+}
+
+void UPlayerVitalsAttributeSet::OnRep_MaxThirst(const FGameplayAttributeData& OldValue)
+{
+    GAMEPLAYATTRIBUTE_REPNOTIFY(UPlayerVitalsAttributeSet, MaxThirst, OldValue);
+}
 
 void UPlayerVitalsAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
-	// GAS handles replication, so just call the super
-	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+    // GAS handles replication, so just call the super
+    Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 }
 
-// Debugging attributes
-void UPlayerVitalsAttributeSet::PrintAllVitals()
+void UPlayerVitalsAttributeSet::PrintAllAttributes()
 {
     UClass* Class = GetClass();
 
@@ -69,33 +110,29 @@ void UPlayerVitalsAttributeSet::PrintAllVitals()
     {
         FProperty* Property = *PropIt;
 
+        // Only handle FGameplayAttributeData properties
         if (FStructProperty* StructProp = CastField<FStructProperty>(Property))
         {
-            if (StructProp->Struct == FAttributeWithMax::StaticStruct())
+            if (StructProp->Struct == FGameplayAttributeData::StaticStruct())
             {
-                void* PropValuePtr = StructProp->ContainerPtrToValuePtr<void>(this);
-                FAttributeWithMax* AttrValue = reinterpret_cast<FAttributeWithMax*>(PropValuePtr);
+                void* ValuePtr = StructProp->ContainerPtrToValuePtr<void>(this);
+                FGameplayAttributeData* AttrData = reinterpret_cast<FGameplayAttributeData*>(ValuePtr);
 
-                if (AttrValue)
+                if (AttrData)
                 {
-                    // Print to Output Log
-                    UE_LOG(LogTemp, Warning, TEXT("%s - Current: %.2f, Max: %.2f"),
-                        *Property->GetName(),
-                        AttrValue->Current.GetCurrentValue(),
-                        AttrValue->Max.GetCurrentValue()
-                    );
+                    float Val = AttrData->GetCurrentValue();
 
-                    // Also print on screen (optional, shows in game)
+                    // Log to Output Log
+                    UE_LOG(LogTemp, Warning, TEXT("%s = %.2f"), *Property->GetName(), Val);
+
+                    // Also display on screen
                     if (GEngine)
                     {
                         GEngine->AddOnScreenDebugMessage(
-                            -1, // Unique key, -1 = new message each time
-                            5.f, // Duration in seconds
-                            FColor::Yellow, // Text color
-                            FString::Printf(TEXT("%s: %.2f / %.2f"),
-                                *Property->GetName(),
-                                AttrValue->Current.GetCurrentValue(),
-                                AttrValue->Max.GetCurrentValue())
+                            -1, // new message each time
+                            5.f, // duration
+                            FColor::Yellow,
+                            FString::Printf(TEXT("%s = %.2f"), *Property->GetName(), Val)
                         );
                     }
                 }
