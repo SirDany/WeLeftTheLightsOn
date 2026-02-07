@@ -45,6 +45,10 @@ public:
     UPROPERTY(BlueprintReadOnly, Category = "Vitals", ReplicatedUsing = OnRep_Thirst)
     FAttributeWithMax Thirst;
 
+    // Debug function: prints all FAttributeWithMax properties (Health, Stamina, etc.)
+    UFUNCTION(BlueprintCallable, Category = "Debug")
+    void PrintAllVitals();
+
 protected:
 
     // Replication callbacks

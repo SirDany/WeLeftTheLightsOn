@@ -1,5 +1,6 @@
 #include "PlayerVitalsAttributeSet.h"
 #include "Net/UnrealNetwork.h"
+#include "Engine/Engine.h"
 
 UPlayerVitalsAttributeSet::UPlayerVitalsAttributeSet()
 {
@@ -57,4 +58,48 @@ void UPlayerVitalsAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimePrope
 {
 	// GAS handles replication, so just call the super
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+}
+
+// Debugging attributes
+void UPlayerVitalsAttributeSet::PrintAllVitals()
+{
+    UClass* Class = GetClass();
+
+    for (TFieldIterator<FProperty> PropIt(Class); PropIt; ++PropIt)
+    {
+        FProperty* Property = *PropIt;
+
+        if (FStructProperty* StructProp = CastField<FStructProperty>(Property))
+        {
+            if (StructProp->Struct == FAttributeWithMax::StaticStruct())
+            {
+                void* PropValuePtr = StructProp->ContainerPtrToValuePtr<void>(this);
+                FAttributeWithMax* AttrValue = reinterpret_cast<FAttributeWithMax*>(PropValuePtr);
+
+                if (AttrValue)
+                {
+                    // Print to Output Log
+                    UE_LOG(LogTemp, Warning, TEXT("%s - Current: %.2f, Max: %.2f"),
+                        *Property->GetName(),
+                        AttrValue->Current.GetCurrentValue(),
+                        AttrValue->Max.GetCurrentValue()
+                    );
+
+                    // Also print on screen (optional, shows in game)
+                    if (GEngine)
+                    {
+                        GEngine->AddOnScreenDebugMessage(
+                            -1, // Unique key, -1 = new message each time
+                            5.f, // Duration in seconds
+                            FColor::Yellow, // Text color
+                            FString::Printf(TEXT("%s: %.2f / %.2f"),
+                                *Property->GetName(),
+                                AttrValue->Current.GetCurrentValue(),
+                                AttrValue->Max.GetCurrentValue())
+                        );
+                    }
+                }
+            }
+        }
+    }
 }
