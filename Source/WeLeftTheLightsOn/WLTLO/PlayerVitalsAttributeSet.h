@@ -2,6 +2,8 @@
 
 #include "CoreMinimal.h"
 #include "AttributeSet.h"
+#include "UObject/ObjectMacros.h"
+#include "UObject/ScriptMacros.h" 
 #include "AbilitySystemComponent.h"
 #include "GameplayEffectTypes.h"
 #include "GameplayEffectExtension.h"
@@ -13,6 +15,9 @@ GAMEPLAYATTRIBUTE_PROPERTY_GETTER(ClassName, PropertyName) \
 GAMEPLAYATTRIBUTE_VALUE_GETTER(PropertyName) \
 GAMEPLAYATTRIBUTE_VALUE_SETTER(PropertyName) \
 GAMEPLAYATTRIBUTE_VALUE_INITTER(PropertyName)
+
+// Declare the delegate type at the top
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnAttributePairChanged, float, CurrentValue, float, MaxValue);
 
 /**
  * Player Vitals Attribute Set (GAS-compliant)
@@ -73,6 +78,21 @@ public:
         // Debug function
         UFUNCTION(BlueprintCallable, Category = "Debug")
     void PrintAllAttributes();
+
+    UPROPERTY(BlueprintAssignable, Category = "Attributes|Health")
+    FOnAttributePairChanged  OnHealthChanged;
+
+    UPROPERTY(BlueprintAssignable, Category = "Attributes|Stamina")
+    FOnAttributePairChanged  OnStaminaChanged;
+
+    UPROPERTY(BlueprintAssignable, Category = "Attributes|Oxygen")
+    FOnAttributePairChanged  OnOxygenChanged;
+
+    UPROPERTY(BlueprintAssignable, Category = "Attributes|Hunger")
+    FOnAttributePairChanged  OnHungerChanged;
+
+    UPROPERTY(BlueprintAssignable, Category = "Attributes|Thirst")
+    FOnAttributePairChanged  OnThirstChanged;
 
 protected:
     // Central clamp point
