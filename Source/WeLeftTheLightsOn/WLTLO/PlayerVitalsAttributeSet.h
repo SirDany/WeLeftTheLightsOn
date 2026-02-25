@@ -18,6 +18,7 @@ GAMEPLAYATTRIBUTE_VALUE_INITTER(PropertyName)
 
 // Declare the delegate type at the top
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnAttributePairChanged, float, CurrentValue, float, MaxValue);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnAttributeChanged, float, CurrentValue);
 
 /**
  * Player Vitals Attribute Set (GAS-compliant)
@@ -30,54 +31,70 @@ class WELEFTTHELIGHTSON_API UPlayerVitalsAttributeSet : public UAttributeSet
 public:
     UPlayerVitalsAttributeSet();
 
+    // -------------------- Movement Speed --------------------
+    UPROPERTY(BlueprintReadOnly, Category = "Vitals|Movement Speed", ReplicatedUsing = OnRep_MovementSpeed)
+    FGameplayAttributeData MovementSpeed;
+    ATTRIBUTE_ACCESSORS(UPlayerVitalsAttributeSet, MovementSpeed)
+
+    UPROPERTY(BlueprintReadOnly, Category = "Vitals|Movement Speed", ReplicatedUsing = OnRep_BaseMovementSpeed)
+    FGameplayAttributeData BaseMovementSpeed;
+    ATTRIBUTE_ACCESSORS(UPlayerVitalsAttributeSet, BaseMovementSpeed)
+
     // -------------------- Health --------------------
     UPROPERTY(BlueprintReadOnly, Category = "Vitals|Health", ReplicatedUsing = OnRep_Health)
     FGameplayAttributeData Health;
     ATTRIBUTE_ACCESSORS(UPlayerVitalsAttributeSet, Health)
 
-        UPROPERTY(BlueprintReadOnly, Category = "Vitals|Health", ReplicatedUsing = OnRep_MaxHealth)
+    UPROPERTY(BlueprintReadOnly, Category = "Vitals|Health", ReplicatedUsing = OnRep_MaxHealth)
     FGameplayAttributeData MaxHealth;
     ATTRIBUTE_ACCESSORS(UPlayerVitalsAttributeSet, MaxHealth)
 
-        // -------------------- Stamina --------------------
-        UPROPERTY(BlueprintReadOnly, Category = "Vitals|Stamina", ReplicatedUsing = OnRep_Stamina)
+    // -------------------- Stamina --------------------
+    UPROPERTY(BlueprintReadOnly, Category = "Vitals|Stamina", ReplicatedUsing = OnRep_Stamina)
     FGameplayAttributeData Stamina;
     ATTRIBUTE_ACCESSORS(UPlayerVitalsAttributeSet, Stamina)
 
-        UPROPERTY(BlueprintReadOnly, Category = "Vitals|Stamina", ReplicatedUsing = OnRep_MaxStamina)
+    UPROPERTY(BlueprintReadOnly, Category = "Vitals|Stamina", ReplicatedUsing = OnRep_MaxStamina)
     FGameplayAttributeData MaxStamina;
     ATTRIBUTE_ACCESSORS(UPlayerVitalsAttributeSet, MaxStamina)
 
-        // -------------------- Oxygen --------------------
-        UPROPERTY(BlueprintReadOnly, Category = "Vitals|Oxygen", ReplicatedUsing = OnRep_Oxygen)
+    // -------------------- Oxygen --------------------
+    UPROPERTY(BlueprintReadOnly, Category = "Vitals|Oxygen", ReplicatedUsing = OnRep_Oxygen)
     FGameplayAttributeData Oxygen;
     ATTRIBUTE_ACCESSORS(UPlayerVitalsAttributeSet, Oxygen)
 
-        UPROPERTY(BlueprintReadOnly, Category = "Vitals|Oxygen", ReplicatedUsing = OnRep_MaxOxygen)
+    UPROPERTY(BlueprintReadOnly, Category = "Vitals|Oxygen", ReplicatedUsing = OnRep_MaxOxygen)
     FGameplayAttributeData MaxOxygen;
     ATTRIBUTE_ACCESSORS(UPlayerVitalsAttributeSet, MaxOxygen)
 
-        // -------------------- Hunger --------------------
-        UPROPERTY(BlueprintReadOnly, Category = "Vitals|Hunger", ReplicatedUsing = OnRep_Hunger)
+    // -------------------- Hunger --------------------
+    UPROPERTY(BlueprintReadOnly, Category = "Vitals|Hunger", ReplicatedUsing = OnRep_Hunger)
     FGameplayAttributeData Hunger;
     ATTRIBUTE_ACCESSORS(UPlayerVitalsAttributeSet, Hunger)
 
-        UPROPERTY(BlueprintReadOnly, Category = "Vitals|Hunger", ReplicatedUsing = OnRep_MaxHunger)
+    UPROPERTY(BlueprintReadOnly, Category = "Vitals|Hunger", ReplicatedUsing = OnRep_MaxHunger)
     FGameplayAttributeData MaxHunger;
     ATTRIBUTE_ACCESSORS(UPlayerVitalsAttributeSet, MaxHunger)
 
-        // -------------------- Thirst --------------------
-        UPROPERTY(BlueprintReadOnly, Category = "Vitals|Thirst", ReplicatedUsing = OnRep_Thirst)
+    // -------------------- Thirst --------------------
+    UPROPERTY(BlueprintReadOnly, Category = "Vitals|Thirst", ReplicatedUsing = OnRep_Thirst)
     FGameplayAttributeData Thirst;
     ATTRIBUTE_ACCESSORS(UPlayerVitalsAttributeSet, Thirst)
 
-        UPROPERTY(BlueprintReadOnly, Category = "Vitals|Thirst", ReplicatedUsing = OnRep_MaxThirst)
+    UPROPERTY(BlueprintReadOnly, Category = "Vitals|Thirst", ReplicatedUsing = OnRep_MaxThirst)
     FGameplayAttributeData MaxThirst;
     ATTRIBUTE_ACCESSORS(UPlayerVitalsAttributeSet, MaxThirst)
 
-        // Debug function
-        UFUNCTION(BlueprintCallable, Category = "Debug")
+    // Debug function
+    UFUNCTION(BlueprintCallable, Category = "Debug")
     void PrintAllAttributes();
+
+    // Update events
+    UPROPERTY(BlueprintAssignable, Category = "Attributes|Movement Speed")
+    FOnAttributeChanged  OnMovementSpeedChanged;
+
+    UPROPERTY(BlueprintAssignable, Category = "Attributes|Movement Speed")
+    FOnAttributeChanged  OnBaseMovementSpeedChanged;
 
     UPROPERTY(BlueprintAssignable, Category = "Attributes|Health")
     FOnAttributePairChanged  OnHealthChanged;
@@ -100,6 +117,9 @@ protected:
         const FGameplayEffectModCallbackData& Data) override;
 
     // Replication callbacks
+    UFUNCTION() void OnRep_MovementSpeed(const FGameplayAttributeData& OldValue);
+    UFUNCTION() void OnRep_BaseMovementSpeed(const FGameplayAttributeData& OldValue);
+
     UFUNCTION() void OnRep_Health(const FGameplayAttributeData& OldValue);
     UFUNCTION() void OnRep_MaxHealth(const FGameplayAttributeData& OldValue);
 

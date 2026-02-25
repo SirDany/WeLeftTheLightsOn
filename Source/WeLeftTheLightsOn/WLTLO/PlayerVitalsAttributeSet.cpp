@@ -7,6 +7,9 @@
 
 UPlayerVitalsAttributeSet::UPlayerVitalsAttributeSet()
 {
+    InitMovementSpeed(100.f);
+    InitBaseMovementSpeed(100.f);
+
     InitHealth(100.f);
     InitMaxHealth(100.f);
 
@@ -68,9 +71,31 @@ void UPlayerVitalsAttributeSet::PostGameplayEffectExecute(
             MaxThirst.GetCurrentValue()
         );
     }
+    else if (Attr == GetMovementSpeedAttribute())
+    {
+        OnMovementSpeedChanged.Broadcast(
+            MovementSpeed.GetCurrentValue()
+        );
+    }
+    else if (Attr == GetBaseMovementSpeedAttribute())
+    {
+        OnBaseMovementSpeedChanged.Broadcast(
+            BaseMovementSpeed.GetCurrentValue()
+        );
+    }
 }
 
 // ---------------- Replication ----------------
+
+void UPlayerVitalsAttributeSet::OnRep_MovementSpeed(const FGameplayAttributeData& OldValue)
+{
+    GAMEPLAYATTRIBUTE_REPNOTIFY(UPlayerVitalsAttributeSet, MovementSpeed, OldValue);
+}
+
+void UPlayerVitalsAttributeSet::OnRep_BaseMovementSpeed(const FGameplayAttributeData& OldValue)
+{
+    GAMEPLAYATTRIBUTE_REPNOTIFY(UPlayerVitalsAttributeSet, BaseMovementSpeed, OldValue);
+}
 
 void UPlayerVitalsAttributeSet::OnRep_Health(const FGameplayAttributeData& OldValue)
 {
@@ -127,6 +152,8 @@ void UPlayerVitalsAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimePrope
     // GAS handles replication, so just call the super
     Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
+    DOREPLIFETIME(UPlayerVitalsAttributeSet, MovementSpeed);
+    DOREPLIFETIME(UPlayerVitalsAttributeSet, BaseMovementSpeed);
     DOREPLIFETIME(UPlayerVitalsAttributeSet, Health);
     DOREPLIFETIME(UPlayerVitalsAttributeSet, MaxHealth);
     DOREPLIFETIME(UPlayerVitalsAttributeSet, Stamina);
