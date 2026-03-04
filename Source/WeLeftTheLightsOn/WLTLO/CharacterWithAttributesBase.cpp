@@ -1,8 +1,6 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "CharacterWithAttributesBase.h"
 #include "AbilitySystemComponent.h"
+#include "WLTLO_AbilitySystemComponent.h"
 #include "PlayerVitalsAttributeSet.h"
 
 // Sets default values
@@ -11,7 +9,7 @@ ACharacterWithAttributesBase::ACharacterWithAttributesBase()
 	PrimaryActorTick.bCanEverTick = true;
 
 	// Create Ability System Component
-	AbilitySystemComponent = CreateDefaultSubobject<UAbilitySystemComponent>(
+	AbilitySystemComponent = CreateDefaultSubobject<UWLTLO_AbilitySystemComponent>(
 		TEXT("AbilitySystemComponent")
 	);
 
@@ -24,12 +22,11 @@ ACharacterWithAttributesBase::ACharacterWithAttributesBase()
 	);
 }
 
-
 // Called when the game starts or when spawned
 void ACharacterWithAttributesBase::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
 	if (AbilitySystemComponent)
 	{
 		AbilitySystemComponent->InitAbilityActorInfo(this, this);
@@ -40,21 +37,16 @@ void ACharacterWithAttributesBase::BeginPlay()
 void ACharacterWithAttributesBase::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
 // Called to bind functionality to input
 void ACharacterWithAttributesBase::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
 }
 
+// Implement IAbilitySystemInterface
 UAbilitySystemComponent* ACharacterWithAttributesBase::GetAbilitySystemComponent() const
 {
 	return AbilitySystemComponent;
 }
-
-UPROPERTY()
-TObjectPtr<UPlayerVitalsAttributeSet> VitalsAttributeSet;
-

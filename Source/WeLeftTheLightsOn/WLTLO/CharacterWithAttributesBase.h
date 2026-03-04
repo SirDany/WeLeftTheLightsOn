@@ -7,7 +7,7 @@
 #include "AbilitySystemInterface.h"
 #include "CharacterWithAttributesBase.generated.h"
 
-class UAbilitySystemComponent;
+class UWLTLO_AbilitySystemComponent;
 class UPlayerVitalsAttributeSet;
 
 UCLASS()
@@ -28,7 +28,7 @@ protected:
 
 	// Ability System Component
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Abilities")
-	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
+	TObjectPtr<UWLTLO_AbilitySystemComponent> AbilitySystemComponent;
 
 	// Attribute Set
 	UPROPERTY()
@@ -38,5 +38,3 @@ public:
 	virtual void Tick(float DeltaTime) override;
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 };
-
-
