@@ -31,12 +31,31 @@ void UWLTLO_AbilitySystemComponent::HandleEffectApplied(
 	// Bind stack change delegate for this specific handle
 	if (Handle.IsValid())
 	{
-		if (FOnActiveGameplayEffectStackChange* StackDelegate =
-			OnGameplayEffectStackChangeDelegate(Handle))
+		// Get the active effect to retrieve current stack count
+		if (const FActiveGameplayEffect* ActiveEffect = GetActiveGameplayEffect(Handle))
 		{
-			StackDelegate->AddUObject(
-				this,
-				&UWLTLO_AbilitySystemComponent::HandleStackChanged);
+			const int32 CurrentStackCount = ActiveEffect->Spec.StackCount;
+			
+			// Broadcast initial stack change
+			FGameplayTagContainer EffectTags;
+			if (ActiveEffect->Spec.Def)
+			{
+				EffectTags = ActiveEffect->Spec.Def->InheritableOwnedTagsContainer.CombinedTags;
+			}
+			
+			BP_OnGameplayEffectStackChanged.Broadcast(
+				Handle,
+				CurrentStackCount,
+				0,
+				EffectTags);
+
+			if (FOnActiveGameplayEffectStackChange* StackDelegate =
+				OnGameplayEffectStackChangeDelegate(Handle))
+			{
+				StackDelegate->AddUObject(
+					this,
+					&UWLTLO_AbilitySystemComponent::HandleStackChanged);
+			}
 		}
 	}
 }
@@ -45,6 +64,20 @@ void UWLTLO_AbilitySystemComponent::HandleEffectRemoved(
 	const FActiveGameplayEffect& ActiveEffect)
 {
 	const UGameplayEffect* Def = ActiveEffect.Spec.Def;
+	const int32 LastStackCount = ActiveEffect.Spec.StackCount;
+
+	// Broadcast stack change with 0 stacks before removal
+	FGameplayTagContainer EffectTags;
+	if (Def)
+	{
+		EffectTags = Def->InheritableOwnedTagsContainer.CombinedTags;
+	}
+	
+	BP_OnGameplayEffectStackChanged.Broadcast(
+		ActiveEffect.Handle,
+		0,
+		LastStackCount,
+		EffectTags);
 
 	BP_OnGameplayEffectRemoved.Broadcast(
 		Def,
@@ -59,8 +92,18 @@ void UWLTLO_AbilitySystemComponent::HandleStackChanged(
 	int32 NewStackCount,
 	int32 OldStackCount)
 {
-	BP_OnGameplayEffectStackChanged.Broadcast(
-		Handle,
-		NewStackCount,
-		OldStackCount);
+	if (const FActiveGameplayEffect* ActiveEffect = GetActiveGameplayEffect(Handle))
+	{
+		FGameplayTagContainer EffectTags;
+		if (ActiveEffect->Spec.Def)
+		{
+			EffectTags = ActiveEffect->Spec.Def->InheritableOwnedTagsContainer.CombinedTags;
+		}
+		
+		BP_OnGameplayEffectStackChanged.Broadcast(
+			Handle,
+			NewStackCount,
+			OldStackCount,
+			EffectTags);
+	}
 }
