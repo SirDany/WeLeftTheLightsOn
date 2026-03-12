@@ -16,11 +16,12 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(
 	const UGameplayEffect*, EffectClass,
 	FActiveGameplayEffectHandle, EffectHandle);
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_FourParams(
 	FWLTLO_OnGameplayEffectStackChanged,
 	FActiveGameplayEffectHandle, EffectHandle,
 	int32, NewStackCount,
-	int32, OldStackCount);
+	int32, OldStackCount,
+	const FGameplayTagContainer&, GrantedTags);
 
 UCLASS()
 class WELEFTTHELIGHTSON_API UWLTLO_AbilitySystemComponent : public UAbilitySystemComponent
